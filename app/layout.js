@@ -1,10 +1,11 @@
 import './globals.css';
+import { AppShell } from '../components/app-shell';
 
 export const metadata = {
-  title: 'webAbhi',
-  description: 'Website webAbhi dengan Next.js',
+  title: { default:'Recall — Belajar, pahami, ingat.', template:'%s | Recall' },
+  description: 'Ubah PDF, video YouTube, dan gambar menjadi flashcard. Latih active recall dan simpan progres belajarmu.',
 };
 
 export default function RootLayout({ children }) {
-  return <html lang="id"><body>{children}</body></html>;
+  return <html lang="id"><body><AppShell>{children}</AppShell></body></html>;
 }

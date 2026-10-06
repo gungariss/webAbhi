@@ -1,11 +1,15 @@
-export default function Home() {
-  return (
-    <main>
-      <span className="badge">webAbhi</span>
-      <h1>Awal dari ide<br /><span>yang hebat.</span></h1>
-      <p>Selamat datang di webAbhi. Website ini siap dikembangkan menjadi sesuatu yang kamu inginkan.</p>
-      <a href="https://github.com/gungariss/webAbhi" target="_blank" rel="noopener noreferrer">Lihat repository <span aria-hidden="true">↗</span></a>
-      <footer>Dibangun dengan Next.js</footer>
-    </main>
-  );
+import Link from 'next/link';
+import { ArrowRight, Sparkles, FileText, CirclePlay, Image as ImageIcon, Brain, RotateCcw, Check, ArrowUpRight } from 'lucide-react';
+export default function Home(){
+  return <main id="main">
+    <section className="hero page-width"><div className="hero-copy"><div className="pill"><span className="tiny-dot"/> BELAJAR LEBIH CERDAS, BUKAN LEBIH LAMA</div><h1>Bukan sekadar<br/>baca.<br/><span>Benar-benar ingat.</span></h1><p className="hero-description">Ubah materi jadi flashcard dengan AI. Tantang ingatanmu, pahami konsepnya, dan buat setiap sesi belajar berarti.</p><div className="hero-actions"><Link className="button" href="/materi">Buat flashcard pertamamu <ArrowUpRight size={19}/></Link><Link className="text-link" href="/belajar/demo">Coba dulu <ArrowRight size={17}/></Link></div><div className="source-pills"><span><FileText size={15}/> PDF</span><span><CirclePlay size={15}/> YouTube</span><span><ImageIcon size={15}/> Gambar</span><span className="source-note">Materimu, cara belajarmu.</span></div></div>
+    <div className="hero-visual" aria-label="Contoh flashcard active recall"><div className="visual-orbit orbit-one"/><div className="visual-orbit orbit-two"/><span className="floating-spark"><Sparkles size={28}/></span><div className="back-card back-one"/><div className="back-card back-two"/><div className="example-card"><div className="example-top"><span>BIOLOGI · 01 / 20</span><span className="mini-chip">PERTANYAAN</span></div><span className="example-symbol"><Brain size={32}/></span><h2>Apa fungsi utama<br/>mitokondria?</h2><p>Berhenti sejenak. Coba ingat jawabannya.</p><Link href="/belajar/demo" className="example-reveal">Lihat jawabannya <ArrowRight size={17}/></Link><div className="example-bottom"><span className="mini-dot"/><span className="mini-dot light"/><span className="mini-dot light"/><span className="mini-dot light"/></div></div><div className="floating-note"><span><Check size={18}/></span><div><strong>Satu kartu, satu konsep.</strong><small>Langkah kecil, pemahaman besar.</small></div></div><div className="visual-caption">sedikit usaha sekarang, lebih ingat nanti ↗</div></div></section>
+    <section className="intro-strip"><div className="page-width"><span className="eyebrow">KENAPA ACTIVE RECALL?</span><p>Membaca itu awal.<br/><strong>Mengingat kembali itu latihannya.</strong></p><span>Daripada terus membaca ulang, coba jawab pertanyaan tanpa melihat catatan. Flashcard membantumu mengetahui apa yang sudah kamu pahami dan apa yang perlu diulang.</span></div></section>
+    <section className="page-width section" id="panduan"><div className="section-heading"><div><p className="eyebrow">DARI MATERI KE INGATAN</p><h2>Tiga langkah.<br/>Satu kebiasaan baik.</h2></div><p>Tidak perlu menulis kartu satu per satu.<br/>Fokuskan waktumu untuk memahami.</p></div><div className="steps-grid">{[
+      {icon:FileText,n:'01',title:'Bawa materimu',text:'Unggah PDF, tempel link YouTube, atau pilih hingga 10 gambar catatan.'},
+      {icon:Sparkles,n:'02',title:'Biarkan AI menyusun',text:'Pilih jumlah kartu dan bahasa. AI mengubah konsep penting menjadi pertanyaan dan jawaban.'},
+      {icon:RotateCcw,n:'03',title:'Ingat, cek, ulangi',text:'Jawab dulu, buka jawabannya, lalu nilai pemahamanmu. Ulangi kartu yang masih sulit.'},
+    ].map(({icon:Icon,n,title,text})=><article className="step-card" key={n}><div className="step-top"><span className="step-icon"><Icon size={24}/></span><span>{n}</span></div><h3>{title}</h3><p>{text}</p></article>)}</div></section>
+    <section className="page-width"><div className="home-cta"><div><p className="eyebrow">MULAI DARI SATU TOPIK</p><h2>Materi menumpuk?<br/>Kita mulai pelan-pelan.</h2><p>Satu sesi singkat hari ini. Satu langkah lebih paham.</p></div><Link className="button dark" href="/materi">Mulai belajar <ArrowUpRight size={19}/></Link></div></section>
+  </main>;
 }

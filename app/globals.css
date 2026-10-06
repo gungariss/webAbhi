@@ -438,3 +438,156 @@ input::placeholder, textarea::placeholder { color: #6c7468; }
   .guide-list li { gap: 16px; }
   .hero-description { font-size: 15px; }
 }
+
+/* Phone-first controls. Layer 30 is reserved for persistent navigation. */
+.phone-nav { display: none; }
+@media (max-width: 760px) {
+  html { scroll-padding-top: 116px; scroll-padding-bottom: 96px; }
+  body { padding-bottom: calc(82px + env(safe-area-inset-bottom, 0px)); }
+  .page-width, .nav-wrap, .site-footer { width: calc(100% - 32px); }
+  .page-content, .material-layout > *, .guide-list li > div { min-width: 0; }
+  .nav-wrap { height: 64px; gap: 12px; }
+  .nav-actions { gap: 6px; }
+  .nav-wrap .button.small { min-height: 44px; font-size: 14px; padding: 10px 14px; }
+  .icon-button, .reorder-buttons .icon-button { min-width: 44px; min-height: 44px; }
+  .mobile-toggle, .mobile-nav { display: none; }
+  .location-label { display: none; }
+  .location-wrap { min-height: 40px; gap: 8px; padding: 0; }
+  .location-wrap ol { gap: 6px; }
+  .location-wrap li { font-size: 12px; }
+  .location-wrap a { min-height: 40px; align-items: center; color: var(--muted); }
+  .phone-nav {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+    position: fixed; inset: auto 0 0; z-index: 30;
+    background: var(--paper); border-top: 1px solid var(--line);
+    padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+    gap: 6px;
+  }
+  .phone-nav a {
+    min-width: 0; min-height: 56px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 5px;
+    border-radius: 10px; color: var(--muted); font-size: 12px; font-weight: 600;
+    line-height: 1.2; transition: background .2s, color .2s;
+  }
+  .phone-nav a.active { background: var(--blue); color: #fffef9; }
+  .phone-nav a:active { background: var(--pale); color: var(--ink); }
+  .phone-nav a.active:active { background: var(--blue-dark); color: #fffef9; }
+  .button, .button.small, .text-link, .back-link { min-height: 48px; }
+  .button, .button.small { font-size: 15px; }
+  .hero { padding: 28px 0 36px; gap: 26px; }
+  .hero-kicker { font-size: 10px; margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(36px, 10vw, 56px); margin-bottom: 18px; }
+  .hero-description { font-size: 16px; line-height: 1.7; margin-bottom: 22px; }
+  .hero-actions { flex-direction: column; align-items: stretch; gap: 8px; }
+  .hero-actions .button { width: 100%; min-height: 50px; font-size: 15px; }
+  .hero-actions .text-link { justify-content: center; font-size: 14px; }
+  .source-pills { margin-top: 14px; gap: 8px; }
+  .source-pills > span { font-size: 12px; }
+  .hero-visual { padding: 18px 14px; }
+  .preview-heading { font-size: 9px; letter-spacing: .3px; margin-bottom: 18px; }
+  .preview-scene { height: 310px; margin: 0 8px; }
+  .preview-face { padding: 20px 14px; }
+  .preview-card-top { font-size: 9px; }
+  .preview-label { font-size: 10px; }
+  .preview-face h2, .preview-back h2 { font-size: clamp(24px, 6.5vw, 29px); line-height: 1.25; }
+  .preview-face p { font-size: 13px; line-height: 1.65; }
+  .preview-flip { min-height: 50px; font-size: 14px; margin-top: 18px; }
+  .preview-sticky { display: none; }
+  .preview-footer { padding-top: 12px; font-size: 12px; }
+  .preview-footer > a { min-height: 44px; }
+  .preview-pagination i { display: none; }
+  .recall-intro > .page-width { gap: 16px; }
+  .guide-layout { padding-top: 44px; padding-bottom: 44px; gap: 24px; }
+  .guide-list li { grid-template-columns: 26px minmax(0, 1fr) 22px; gap: 12px; padding: 22px 0; }
+  .guide-list h3 { font-size: 20px; }
+  .guide-list p, .home-cta p:last-child { font-size: 15px; }
+  .home-cta { padding: 24px 20px; gap: 20px; }
+  .home-cta h2 { font-size: 30px; line-height: 1.2; }
+  .home-cta .button { width: 100%; }
+  .workspace { padding-top: 24px; }
+  .workspace-heading { padding-bottom: 20px; margin-bottom: 24px; }
+  .workspace-heading h1 { font-size: 34px; line-height: 1.2; }
+  .workspace-heading > p { font-size: 15px; }
+  .panel { padding: 20px 16px; }
+  .field-title { font-size: 16px; }
+  label { font-size: 14px; line-height: 1.6; }
+  input:not([type=checkbox],[type=file]), textarea, select { font-size: 16px; min-height: 48px; }
+  .form-columns { grid-template-columns: 1fr; gap: 0; }
+  .source-choice strong { font-size: 14px; }
+  .source-choice > span { font-size: 12px; }
+  .upload-zone { padding: 24px 16px; }
+  .upload-zone strong { font-size: 15px; }
+  .upload-zone > span:not(.upload-icon), .helper, .fine-print { font-size: 13px; }
+  .consent { font-size: 13px; gap: 12px; }
+  .consent input { width: 20px; height: 20px; }
+  .file-info strong { font-size: 13px; }
+  .file-info span { font-size: 12px; }
+  .file-row { gap: 8px; flex-wrap: wrap; }
+  .file-info { min-width: 100px; }
+  .reorder-buttons { flex-direction: row; }
+  .decks-grid { grid-template-columns: 1fr; }
+  .stats-grid span:first-child { font-size: 12px; }
+  .deck-card > p, .deck-progress, .deck-start { font-size: 14px; }
+  .deck-start { min-height: 48px; }
+  .library-toolbar .toolbar-buttons { flex-wrap: wrap; }
+  .study-top { gap: 8px; flex-wrap: wrap; }
+  .study-top .back-link { font-size: 13px; }
+  .study-top .button.small { padding: 10px; font-size: 13px; gap: 6px; }
+  .study-heading { margin: 20px 0 22px; }
+  .study-heading .eyebrow { font-size: 10px; margin-bottom: 10px; }
+  .study-heading h1 { font-size: 28px; line-height: 1.25; margin-bottom: 12px; }
+  .study-heading > p:last-child { font-size: 13px; }
+  .study-progress { font-size: 12px; gap: 12px; }
+  .session-track { margin-bottom: 18px; }
+  .study-card-face { min-height: 270px; padding: 20px 18px; box-shadow: 3px 5px 0 #e0e7d5; }
+  .study-card-tools { top: 12px; right: 10px; }
+  .study-card-content { padding: 22px 0; }
+  .study-card-content h2 { font-size: clamp(24px, 6.4vw, 29px); line-height: 1.4; }
+  .study-card-content .study-card-answer { font-family: inherit; font-size: 17px; line-height: 1.75; }
+  .study-card-hint, .study-card-reference { font-size: 12px; line-height: 1.7; }
+  .mini-chip { font-size: 10px; }
+  .study-flip-toggle { min-height: 52px; font-size: 15px; margin-top: 18px; padding: 14px 18px; }
+  .rating-area > p { font-size: 13px; }
+  .rating-buttons { gap: 8px; }
+  .rating { min-height: 60px; font-size: 13px; line-height: 1.4; padding: 12px 6px; }
+  .rating > svg, .rating kbd, .keyboard-hint { display: none; }
+  .rating.again { color: #854637; }
+  .rating.unsure { color: #795b20; }
+  .study-navigation { margin-top: 16px; }
+  .study-navigation .text-link { font-size: 13px; min-height: 48px; }
+  .source-section .text-link, .source-links a { font-size: 13px; min-height: 48px; }
+  .edit-card-form .toolbar-buttons { flex-wrap: wrap; }
+  .session-summary { padding: 24px 18px; }
+  .session-summary > p, .summary-stats span { font-size: 13px; }
+  .summary-actions { flex-direction: column; align-items: stretch; }
+  .summary-actions .button { width: 100%; }
+  .empty-state { padding: 28px 16px; }
+  .empty-state > p { font-size: 15px; }
+  .auth-dialog { width: calc(100% - 24px); max-height: calc(100dvh - 24px); margin: auto; overflow-y: auto; }
+  .auth-content { padding: 28px 20px; }
+  .auth-content h2 { font-size: 29px; line-height: 1.25; }
+  .auth-content > .muted, .auth-switch { font-size: 14px; }
+  .auth-switch button { min-height: 44px; padding: 8px; }
+  .close-dialog { top: 12px; right: 12px; }
+  .site-footer { margin-top: 40px; font-size: 13px; }
+  .footer-credit { font-size: 12px; }
+}
+@media (max-width: 480px) {
+  .source-choices { grid-template-columns: 1fr; gap: 10px; }
+  .source-choice { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: center; gap: 4px 12px; padding: 14px 36px 14px 14px; text-align: left; }
+  .source-choice > svg:not(.choice-check) { grid-row: 1 / 3; width: 24px; margin: 0; }
+  .source-choice strong, .source-choice > span { grid-column: 2; }
+  .source-choice .choice-check { width: 16px; height: 16px; right: 12px; top: 18px; }
+}
+@media (max-width: 360px) {
+  .brand { font-size: 22px; }
+  .brand-icon { width: 28px; height: 28px; }
+  .user-label { max-width: 58px; }
+  .preview-heading { font-size: 8px; }
+  .preview-scene { height: 328px; }
+  .study-top .toolbar-buttons { width: 100%; }
+  .study-top .toolbar-buttons .button { flex: 1; }
+}
+@media (hover: none) {
+  .button:hover:not(:disabled), .source-choice:hover:not(:disabled), .deck-card:hover, .rating:hover:not(:disabled), .preview-flip:hover { transform: none; }
+}

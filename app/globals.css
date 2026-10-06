@@ -1,0 +1,13 @@
+* { box-sizing: border-box; }
+html { min-height: 100%; background: #f5f4ef; }
+body { margin: 0; color: #182a23; font-family: Arial, Helvetica, sans-serif; }
+main { min-height: 100svh; width: min(100%, 1080px); margin: auto; padding: clamp(32px, 8vw, 96px) 24px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
+.badge { font-size: 20px; font-weight: 700; letter-spacing: -.5px; margin-bottom: 56px; }
+h1 { font-size: clamp(44px, 8vw, 88px); line-height: 1.05; letter-spacing: -.05em; margin: 0 0 28px; }
+h1 span { color: #3d8063; }
+p { max-width: 510px; font-size: 18px; line-height: 1.7; color: #59645e; margin: 0 0 32px; }
+a { padding: 16px 22px; background: #182a23; color: white; border-radius: 8px; text-decoration: none; font-weight: 600; }
+a:hover { background: #3d8063; }
+a:focus-visible { outline: 3px solid #3d8063; outline-offset: 5px; }
+a span { margin-left: 16px; }
+footer { font-size: 13px; color: #6c756e; margin-top: 64px; }

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Layers, ArrowUpRight, Menu, X, LogOut, Mail, LoaderCircle, BookOpen } from 'lucide-react';
 import { getSupabase, supabaseConfigured, friendlyError } from '../lib/supabase';
+import { PageMotion } from './page-motion';
 const AuthContext=createContext(null);
 export const useAuth=()=>useContext(AuthContext);
 export function AppShell({children}) {
@@ -22,7 +23,7 @@ export function AppShell({children}) {
   return <AuthContext.Provider value={{user,loading,configured:supabaseConfigured,openAuth:()=>setAuthOpen(true)}}>
     <a className="skip-link" href="#main">Lewati ke konten</a>
     <header className="site-header"><div className="nav-wrap"><Link className="brand" href="/" aria-label="Recall beranda"><span className="brand-icon"><Layers size={22}/></span>recall<span className="brand-dot">.</span></Link><nav className="desktop-nav" aria-label="Navigasi utama">{links.map(([url,label])=><Link key={url} href={url} className={(url==='/'?path==='/':path.startsWith(url))?'active':''}>{label}</Link>)}</nav><div className="nav-actions">{user?<><span className="user-label" title={user.email}>{user.email?.split('@')[0]}</span><button className="icon-button" onClick={signOut} aria-label="Keluar akun"><LogOut size={19}/></button></>:<button className="button small secondary" onClick={()=>setAuthOpen(true)}>Masuk <ArrowUpRight size={15}/></button>}<button className="icon-button mobile-toggle" aria-label={menu?'Tutup menu':'Buka menu'} aria-expanded={menu} aria-controls="mobile-menu" onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></div></div>{menu?<nav id="mobile-menu" className="mobile-nav" aria-label="Navigasi seluler">{links.map(([url,label])=><Link key={url} href={url}>{label}</Link>)}</nav>:null}</header>
-    {children}<footer className="site-footer"><Link className="brand" href="/">recall<span className="brand-dot">.</span></Link><span>Belajar sedikit. Ingat lebih lama.</span><span className="footer-credit">Dibuat untuk rasa ingin tahu kamu.</span></footer><AuthModal open={authOpen} onClose={()=>setAuthOpen(false)}/>
+    <div className="page-content" key={path}>{children}</div><PageMotion/><footer className="site-footer"><Link className="brand" href="/">recall<span className="brand-dot">.</span></Link><span>Belajar sedikit. Ingat lebih lama.</span><span className="footer-credit">Dibuat untuk rasa ingin tahu kamu.</span></footer><AuthModal open={authOpen} onClose={()=>setAuthOpen(false)}/>
   </AuthContext.Provider>;
 }
 function AuthModal({open,onClose}) {

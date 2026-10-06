@@ -11,7 +11,7 @@ export default function Home() {
   return <main id="main">
     <section className="hero page-width">
       <div className="hero-copy">
-        <p className="hero-kicker"><span className="tiny-dot" /> BELAJAR DENGAN ACTIVE RECALL</p>
+        <p className="hero-kicker">BELAJAR DENGAN ACTIVE RECALL</p>
         <h1>Baca itu awal.<br /><span>Ingat lebih lama.</span></h1>
         <p className="hero-description">Ubah materi jadi flashcard. Latih ingatan, satu kartu setiap kali.</p>
         <div className="hero-actions"><Link className="button" href="/materi">Buat flashcard <ArrowUpRight size={19} /></Link><Link className="text-link" href="/belajar/demo">Coba sesi contoh <ArrowRight size={17} /></Link></div>
@@ -19,9 +19,8 @@ export default function Home() {
       </div>
       <HeroCard />
     </section>
-    <section className="intro-strip"><div className="page-width" data-reveal><div className="intro-label"><span className="eyebrow">KENAPA ACTIVE RECALL?</span><span className="intro-index">↗</span></div><p>Jangan cuma mengenali.<br /><strong>Coba mengingat kembali.</strong></p><span>Jawab tanpa melihat catatan. Ulangi bagian yang belum kamu pahami.</span></div></section>
-    <section className="page-width section" id="panduan"><div className="section-heading" data-reveal><div><p className="eyebrow">CARA MULAI</p><h2>Dari catatan,<br /><em>jadi pemahaman.</em></h2></div><p>Siapkan materi. Mulai latihan.</p></div><div className="steps-grid">{steps.map(({ icon: Icon, n, label, title, text }, index) => <article className="step-card" key={n} data-reveal style={{ '--reveal-delay': `${index * 90}ms` }}><div className="step-top"><span className="step-number">{n}</span><Icon size={25} strokeWidth={1.5} /></div><p className="step-label">{label}</p><h3>{title}</h3><p>{text}</p><span className="step-rule" /></article>)}</div></section>
+    <section className="recall-intro"><div className="page-width" data-reveal><h2>Jangan cuma mengenali.<br />Coba mengingat kembali.</h2><p>Jawab tanpa melihat catatan. Ulangi bagian yang belum kamu pahami.</p></div></section>
+    <section className="page-width section guide-layout" id="panduan"><div className="guide-heading" data-reveal><h2>Dari catatan,<br /><em>jadi pemahaman.</em></h2><p>Siapkan materi. Mulai latihan.</p></div><ol className="guide-list">{steps.map(({ icon: Icon, n, title, text }, index) => <li key={n} data-reveal style={{ '--reveal-delay': `${index * 90}ms` }}><span className="guide-number" aria-hidden="true">{n}</span><div><h3>{title}</h3><p>{text}</p></div><Icon size={23} strokeWidth={1.5} aria-hidden="true" /></li>)}</ol></section>
     <section className="page-width" data-reveal><div className="home-cta"><span className="cta-doodle" aria-hidden="true">↗</span><div><p className="eyebrow">MULAI DARI SATU TOPIK</p><h2>Belajar pelan-pelan.<br /><em>Majunya tetap terasa.</em></h2><p>Mulai dari satu sesi singkat.</p></div><Link className="button dark" href="/materi">Mulai belajar <ArrowUpRight size={19} /></Link></div></section>
   </main>;
 }
-

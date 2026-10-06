@@ -1,4 +1,5 @@
 import './globals.css';
+import '@fontsource-variable/dm-sans/index.css';
 import { AppShell } from '../components/app-shell';
 
 export const metadata = {

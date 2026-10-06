@@ -36,7 +36,6 @@ export function AppShell({children}) {
       {menu?<nav id="mobile-menu" className="mobile-nav" aria-label="Navigasi seluler">{links.map(navLink)}</nav>:null}
       <PageLocation path={path}/>
     </header>
-    <nav className="phone-nav" aria-label="Navigasi bawah">{links.map(([url,label],index)=>{const Icon=[House,BookOpen,Layers][index];return <Link key={url} href={url} className={isActive(url)?'active':''} aria-current={path===url?'page':isActive(url)?'location':undefined}><Icon size={21} aria-hidden="true"/><span>{label}</span></Link>;})}</nav>
     <div className="page-content" key={path}>{children}</div><PageMotion/><footer className="site-footer"><Link className="brand" href="/">recall<span className="brand-dot">.</span></Link><span>Belajar sedikit. Ingat lebih lama.</span><span className="footer-credit">Dibuat untuk rasa ingin tahu kamu.</span></footer><AuthModal open={authOpen} onClose={()=>setAuthOpen(false)}/>
   </AuthContext.Provider>;
 }

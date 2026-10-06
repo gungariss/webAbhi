@@ -439,39 +439,23 @@ input::placeholder, textarea::placeholder { color: #6c7468; }
   .hero-description { font-size: 15px; }
 }
 
-/* Phone-first controls. Layer 30 is reserved for persistent navigation. */
-.phone-nav { display: none; }
+/* Phone-first controls with conventional top navigation. */
 @media (max-width: 760px) {
-  html { scroll-padding-top: 116px; scroll-padding-bottom: 96px; }
-  body { padding-bottom: calc(82px + env(safe-area-inset-bottom, 0px)); }
+  html { scroll-padding-top: 116px; scroll-padding-bottom: 24px; }
   .page-width, .nav-wrap, .site-footer { width: calc(100% - 32px); }
   .page-content, .material-layout > *, .guide-list li > div { min-width: 0; }
   .nav-wrap { height: 64px; gap: 12px; }
   .nav-actions { gap: 6px; }
   .nav-wrap .button.small { min-height: 44px; font-size: 14px; padding: 10px 14px; }
   .icon-button, .reorder-buttons .icon-button { min-width: 44px; min-height: 44px; }
-  .mobile-toggle, .mobile-nav { display: none; }
+  .mobile-toggle { display: inline-flex; }
+  .mobile-nav { padding: 12px 16px 16px; max-height: calc(100dvh - 104px); overflow-y: auto; }
+  .mobile-nav a { display: flex; align-items: center; min-height: 48px; padding: 12px 16px; font-size: 15px; }
   .location-label { display: none; }
   .location-wrap { min-height: 40px; gap: 8px; padding: 0; }
   .location-wrap ol { gap: 6px; }
   .location-wrap li { font-size: 12px; }
   .location-wrap a { min-height: 40px; align-items: center; color: var(--muted); }
-  .phone-nav {
-    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-    position: fixed; inset: auto 0 0; z-index: 30;
-    background: var(--paper); border-top: 1px solid var(--line);
-    padding: 8px max(12px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
-    gap: 6px;
-  }
-  .phone-nav a {
-    min-width: 0; min-height: 56px; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 5px;
-    border-radius: 10px; color: var(--muted); font-size: 12px; font-weight: 600;
-    line-height: 1.2; transition: background .2s, color .2s;
-  }
-  .phone-nav a.active { background: var(--blue); color: #fffef9; }
-  .phone-nav a:active { background: var(--pale); color: var(--ink); }
-  .phone-nav a.active:active { background: var(--blue-dark); color: #fffef9; }
   .button, .button.small, .text-link, .back-link { min-height: 48px; }
   .button, .button.small { font-size: 15px; }
   .hero { padding: 28px 0 36px; gap: 26px; }

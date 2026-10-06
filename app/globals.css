@@ -58,7 +58,17 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .desktop-nav { display: flex; align-items: center; gap: 8px; }
 .desktop-nav a { font-size: 12px; font-weight: 600; color: var(--muted); padding: 9px 16px; position: relative; border-radius: 6px; transition: color .2s, background .2s; }
 .desktop-nav a:hover { color: var(--ink); background: #eceee4; }
-.desktop-nav a.active { color: var(--ink); background: #e6eadf; }
+.desktop-nav a.active, .desktop-nav a.active:hover { color: #fffef9; background: var(--blue); }
+.desktop-nav a.active:after { content: ''; position: absolute; width: 5px; height: 5px; left: 50%; bottom: -9px; margin-left: -2.5px; border-radius: 50%; background: var(--blue); }
+.page-location { border-top: 1px solid #e1e5d9; background: #eef1e7; }
+.location-wrap { display: flex; align-items: center; gap: 18px; min-height: 37px; padding-top: 5px; padding-bottom: 5px; }
+.location-label { font-family: monospace; font-size: 8px; letter-spacing: 1.2px; color: #7c8976; }
+.location-wrap ol { list-style: none; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 0; margin: 0; animation: content-enter .25s ease-out; }
+.location-wrap li, .location-wrap li>a, .location-wrap li>span { display: inline-flex; align-items: center; gap: 7px; }
+.location-wrap li { font-size: 11px; color: #8d9b85; }
+.location-wrap a { color: #728168; }
+.location-wrap a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.location-wrap [aria-current="page"] { font-weight: 700; color: var(--ink); }
 .nav-actions { display: flex; align-items: center; gap: 8px; }
 .user-label { font-size: 13px; max-width: 120px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
 .mobile-toggle, .mobile-nav { display: none; }
@@ -288,7 +298,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .brand { font-size: 25px; }
   .brand-icon { width: 32px; height: 32px; }
   .mobile-nav { display: flex; flex-direction: column; padding: 8px 24px 20px; border-top: 1px solid var(--line); gap: 4px; }
-  .mobile-nav a { padding: 11px 0; font-size: 13px; }
+  .mobile-nav a { padding: 11px 14px; font-size: 13px; border-radius: 7px; }
+  .mobile-nav a.active { background: var(--blue); color: #fffef9; font-weight: 700; }
+  .location-wrap { gap: 12px; min-height: 36px; }
+  .location-wrap ol { gap: 6px; }
+  .location-wrap li { font-size: 10px; }
   .hero { grid-template-columns: 1fr; padding: 40px 0 45px; gap: 35px; }
   .hero h1 { font-size: clamp(45px,9vw,67px); }
   .hero-copy { text-align: left; max-width: 520px; margin: auto; width: 100%; }

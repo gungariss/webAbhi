@@ -430,7 +430,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .guide-list h3 { font-size: 21px; font-weight: 600; margin-bottom: 10px; }
 .guide-list p { font-size: 14px; line-height: 1.8; margin-bottom: 0; max-width: 40ch; }
 .guide-list svg { color: var(--green); margin-top: 3px; }
-input::placeholder, textarea::placeholder { color: #72796e; }
+input::placeholder, textarea::placeholder { color: #6c7468; }
 @media (max-width: 760px) {
   .recall-intro > .page-width { grid-template-columns: 1fr; gap: 20px; padding-top: 32px; padding-bottom: 32px; }
   .recall-intro p { max-width: 44ch; }

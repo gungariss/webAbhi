@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, RotateCcw, Check, MoveRight } from 'lucide-react';
+import { ArrowUpRight, Check } from 'lucide-react';
 
 export function HeroCard() {
   const [flipped, setFlipped] = useState(false);
@@ -20,10 +20,10 @@ export function HeroCard() {
           <span className="preview-label">JAWABAN</span><h2>Pembangkit energi<br />di dalam sel.</h2><p>Mitokondria menghasilkan ATP melalui respirasi seluler.</p>
         </div>
       </div>
+      <button type="button" className="card-hit-area" onClick={() => setFlipped(value => !value)} aria-pressed={flipped} aria-label={flipped ? 'Kembali ke pertanyaan contoh' : 'Balik kartu contoh untuk melihat jawaban'} />
     </div>
-    <button type="button" className="preview-flip" onClick={() => setFlipped(value => !value)} aria-pressed={flipped} aria-label={flipped ? 'Kembali ke pertanyaan contoh' : 'Buka jawaban contoh'}><span>{flipped ? 'Kembali ke soal' : 'Lihat jawaban'}</span>{flipped ? <RotateCcw size={17} /> : <MoveRight size={19} />}</button>
+    <p className="preview-tap-hint">{flipped ? 'Ketuk lagi untuk kembali ke soal.' : 'Ketuk kartu untuk melihat jawaban.'}</p>
     <div className="preview-footer"><span className="preview-pagination"><i /><i /><i /><span>01 / 05</span></span><Link href="/belajar/demo">Lanjut latihan <ArrowUpRight size={15} /></Link></div>
     <span className="preview-sticky" aria-hidden="true">Jawab dulu.<br /><em>Baru cek.</em></span>
   </div>;
 }
-

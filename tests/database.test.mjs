@@ -47,10 +47,33 @@ test('PostgreSQL schema: ownership, atomic saves, private storage and durable ra
     assert.equal((await db.query('select * from public.cards where deck_id=$1',[bad])).rows.length,0);
     assert.equal((await db.query('select status from public.decks where id=$1',[bad])).rows[0].status,'generating');
     await db.query('delete from public.decks');
-    for(let i=0;i<3;i++)await db.query(`select public.reserve_deck(gen_random_uuid(),'Another','images',20,'id')`);
+    for(let i=0;i<8;i++)await db.query(`select public.reserve_deck(gen_random_uuid(),'Another','images',20,'id')`);
     await db.query('delete from public.decks');
     await assert.rejects(db.query(`select public.reserve_deck(gen_random_uuid(),'Exceeded','pdf',10,'id')`),/Batas generate/);
     await assert.rejects(db.query('delete from public.generation_requests'));
+    // Failed attempts and deleted decks still consume quota; another user has their own limit.
+    await as(bob);
+    await db.query(`select public.reserve_deck(gen_random_uuid(),'Independent','pdf',10,'id')`);
+    await as(alice);
+    await assert.rejects(db.query('insert into public.generation_requests(owner_id) values($1)',[alice]));
+    await db.exec('reset role');
+    assert.equal((await db.query('select count(*)::int as count from public.generation_requests where owner_id=$1',[alice])).rows[0].count,10);
+    // Hold database time stable to test the exact rolling-window boundary.
+    await db.exec('begin');
+    await db.query(`update public.generation_requests set created_at=now()-interval '5 hours 59 minutes' where owner_id=$1`,[alice]);
+    await db.query(`update public.generation_requests set created_at=now()-interval '6 hours' where id=(select id from public.generation_requests where owner_id=$1 limit 1)`,[alice]);
+    await as(alice);
+    await db.query(`select public.reserve_deck(gen_random_uuid(),'Boundary','pdf',10,'id')`);
+    await db.exec('commit');
+    await assert.rejects(db.query(`select public.reserve_deck(gen_random_uuid(),'Still full','pdf',10,'id')`),/10 permintaan dalam 6 jam/);
+    await db.exec('reset role');
+    await db.query(`update public.generation_requests set created_at=now()-interval '6 hours 1 minute' where owner_id=$1`,[alice]);
+    // Applying the upgrade preserves history and reinstates the same limit.
+    await db.exec(await readFile(new URL('../supabase/migrations/20261010_generation_limit.sql',import.meta.url),'utf8'));
+    await as(alice);
+    for(let i=0;i<10;i++)await db.query(`select public.reserve_deck(gen_random_uuid(),'New window','pdf',10,'id')`);
+    await assert.rejects(db.query(`select public.reserve_deck(gen_random_uuid(),'Eleventh','pdf',10,'id')`),/Batas generate/);
+
     const imported=(await db.query(`select public.import_deck('Imported',$1::jsonb) as id`,[JSON.stringify(cards)])).rows[0].id;
     assert.equal((await db.query('select status from public.decks where id=$1',[imported])).rows[0].status,'ready');
   }finally{await db.close();}

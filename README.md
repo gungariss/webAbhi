@@ -10,6 +10,8 @@ Website flashcard active recall dengan Next.js, Supabase dan Gemini API. Tiga la
 4. Di **Authentication → URL Configuration**, isi **Site URL** dengan `https://webabhi.vercel.app`. Tambahkan URL tersebut ke daftar Redirect URLs. Untuk lokal, tambahkan `http://localhost:3000`. Tambahkan alamat Preview tertentu hanya jika kamu menggunakannya.
 5. Salin Project URL dan Publishable Key dari dialog **Connect** / **Settings → API Keys**. Key `anon` versi lama juga didukung.
 
+Untuk instalasi yang sudah aktif, jalankan [`supabase/migrations/20261010_generation_limit.sql`](supabase/migrations/20261010_generation_limit.sql) di SQL Editor untuk menerapkan batas 10 permintaan per 6 jam. Push kode saja tidak memperbarui fungsi database. Riwayat permintaan sebelumnya tetap dihitung.
+
 ## Environment variable di Vercel
 
 Buka **webabhi → Settings → Environment Variables**. Isi untuk Production dan, bila diperlukan, Preview:
@@ -59,7 +61,7 @@ npm start
 - Progres tersimpan per pengguna dan tersinkron antarperangkat. Membuka jawaban, menilai kartu, edit dan mengulang tidak memanggil AI.
 - Edit/hapus kartu, acak, ulang semua / kartu yang belum dikuasai, ekspor JSON dan impor JSON.
 - Lihat sumber PDF/gambar melalui signed URL berlaku 2 menit. Klik ulang Lihat materi sumber untuk membuat URL baru.
-- Limit aplikasi: 5 percobaan generate per jam dan 20 per 24 jam per akun; kuota Google proyek tetap berlaku. Percobaan gagal ikut dihitung; menghapus kumpulan kartu tidak mereset limit.
+- Limit aplikasi: 10 permintaan generate dalam 6 jam terakhir per akun; kuota Google proyek tetap berlaku. Percobaan gagal ikut dihitung; menghapus kumpulan kartu tidak mereset limit.
 - Sesi contoh tidak disimpan ke database.
 
 ## Data dan keamanan

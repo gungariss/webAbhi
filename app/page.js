@@ -12,7 +12,7 @@ export default function Home() {
     <section className="hero page-width">
       <div className="hero-copy">
         <p className="hero-kicker">BELAJAR DENGAN ACTIVE RECALL</p>
-        <h1>Baca itu awal.<br /><span>Ingat lebih lama.</span></h1>
+        <h1>Recall</h1>
         <p className="hero-description">Ubah materi jadi flashcard. Latih ingatan, satu kartu setiap kali.</p>
         <div className="hero-actions"><Link className="button" href="/materi">Buat flashcard <ArrowUpRight size={19} /></Link><Link className="text-link" href="/belajar/demo">Coba sesi contoh <ArrowRight size={17} /></Link></div>
         <div className="source-pills"><span><FileText size={15} /> PDF</span><span><CirclePlay size={15} /> YouTube</span><span><ImageIcon size={15} /> Gambar</span></div>

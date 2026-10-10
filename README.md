@@ -10,6 +10,14 @@ Website flashcard active recall dengan Next.js, Supabase dan Gemini API. Tiga la
 4. Di **Authentication → URL Configuration**, isi **Site URL** dengan `https://webabhi.vercel.app`. Tambahkan URL tersebut ke daftar Redirect URLs. Untuk lokal, tambahkan `http://localhost:3000`. Tambahkan alamat Preview tertentu hanya jika kamu menggunakannya.
 5. Salin Project URL dan Publishable Key dari dialog **Connect** / **Settings → API Keys**. Key `anon` versi lama juga didukung.
 
+### Register gagal karena batas email
+
+Error Auth `over_email_send_rate_limit` / `Email rate limit exceeded` berasal dari pengiriman email konfirmasi Supabase, bukan limit generate flashcard. Untuk pemakaian publik, aktifkan **Authentication → Email → SMTP Settings** dengan SMTP provider, alamat pengirim, dan domain terverifikasi. Layanan email bawaan Supabase memiliki kuota rendah dan membatasi penerima; layanan tersebut ditujukan untuk pengujian. Setelah custom SMTP aktif, periksa **Authentication → Rate Limits** dan sesuaikan batas pengiriman email dengan kuota provider. Jangan menonaktifkan konfirmasi email sebagai jalan pintas.
+
+Cek **Authentication → Logs** untuk membedakan `over_email_send_rate_limit` (email) dari `over_request_rate_limit` (percobaan Auth). Push atau redeploy tidak mereset kuota Supabase. Form mencegah submit ganda dan memberi jeda 60 detik setelah permintaan konfirmasi diterima; jeda ini tidak menjamin kuota email proyek sudah pulih. Verifikasi setelah pengaturan SMTP diperbaiki: daftar memakai alamat email yang kamu kendalikan, buka tautan konfirmasi, lalu masuk dan pastikan Kartu Saya terbuka.
+
+Referensi: [Supabase Auth rate limits](https://supabase.com/docs/guides/auth/rate-limits) dan [custom SMTP](https://supabase.com/docs/guides/auth/auth-smtp).
+
 Untuk instalasi yang sudah aktif, jalankan [`supabase/migrations/20261010_generation_limit.sql`](supabase/migrations/20261010_generation_limit.sql) di SQL Editor untuk menerapkan batas 10 permintaan per 6 jam. Push kode saja tidak memperbarui fungsi database. Riwayat permintaan sebelumnya tetap dihitung.
 
 ## Environment variable di Vercel

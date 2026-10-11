@@ -2,7 +2,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Layers, ArrowUpRight, Menu, X, LogOut, Mail, LoaderCircle, BookOpen, House, ChevronRight } from 'lucide-react';
+import { Layers, ArrowUpRight, Menu, X, LogOut, LoaderCircle, BookOpen, House, ChevronRight } from 'lucide-react';
 import { getSupabase, supabaseConfigured, friendlyError } from '../lib/supabase';
 import { PageMotion } from './page-motion';
 import { BotVerification } from './bot-verification';
@@ -55,21 +55,30 @@ function AuthModal({open,onClose}) {
   const dialog=useRef(null);
   const submitting=useRef(false);
   const siteKey=process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
-  const [signupRetryAt,setSignupRetryAt]=useState(0),[now,setNow]=useState(Date.now);
-  const signupWait=Math.max(0,Math.ceil((signupRetryAt-now)/1000));
   const [captchaToken,setCaptchaToken]=useState(''),[captchaAttempt,setCaptchaAttempt]=useState(0);
-  const [mode,setMode]=useState('login'),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[busy,setBusy]=useState(false),[message,setMessage]=useState(''),[error,setError]=useState('');
-  useEffect(()=>{if(!signupRetryAt)return;setNow(Date.now());const timer=setInterval(()=>{const current=Date.now();setNow(current);if(current>=signupRetryAt)setSignupRetryAt(0);},1000);return()=>clearInterval(timer);},[signupRetryAt]);
-  useEffect(()=>{if(open){setError('');setMessage('');dialog.current?.showModal();}else dialog.current?.close();},[open]);
+  const [email,setEmail]=useState(''),[password,setPassword]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState('');
+  useEffect(()=>{if(open){setError('');dialog.current?.showModal();}else dialog.current?.close();},[open]);
   async function submit(event){
-    event.preventDefault();if(submitting.current||(mode==='signup'&&Date.now()<signupRetryAt))return;setError('');setMessage('');if(siteKey&&!captchaToken){setError('Selesaikan verifikasi keamanan terlebih dahulu.');return;}const db=getSupabase();if(!db){setError('Login belum tersedia. Aplikasi sedang disiapkan.');return;}submitting.current=true;setBusy(true);
-    try {const result=mode==='login'?await db.auth.signInWithPassword({email:email.trim(),password,options:{captchaToken:captchaToken||undefined}}):await db.auth.signUp({email:email.trim(),password,options:{captchaToken:captchaToken||undefined,emailRedirectTo:process.env.NEXT_PUBLIC_SITE_URL || window.location.origin}});if(result.error)throw result.error;if(result.data.session){setPassword('');onClose();}else {setSignupRetryAt(Date.now()+60000);setMessage('Permintaan konfirmasi diterima. Periksa kotak masuk dan spam, lalu masuk setelah email dikonfirmasi.');}}catch(e){setError(friendlyError(e));}finally{submitting.current=false;setBusy(false);setCaptchaToken('');setCaptchaAttempt(value=>value+1);}
+    event.preventDefault();
+    if(submitting.current)return;
+    setError('');
+    if(siteKey&&!captchaToken){setError('Selesaikan verifikasi keamanan terlebih dahulu.');return;}
+    const db=getSupabase();
+    if(!db){setError('Login belum tersedia. Aplikasi sedang disiapkan.');return;}
+    submitting.current=true;setBusy(true);
+    try {
+      const {data,error}=await db.auth.signInWithPassword({email:email.trim(),password,options:{captchaToken:captchaToken||undefined}});
+      if(error)throw error;
+      if(!data.session)throw new Error('Sesi login belum tersedia. Silakan coba lagi.');
+      setPassword('');onClose();
+    }catch(e){setError(friendlyError(e));}
+    finally{submitting.current=false;setBusy(false);setCaptchaToken('');setCaptchaAttempt(value=>value+1);}
   }
-  return <dialog ref={dialog} className="auth-dialog" onCancel={onClose} onClick={e=>{if(e.target===dialog.current&&!busy)onClose();}} aria-labelledby="auth-title"><div className="auth-content"><button className="icon-button close-dialog" onClick={onClose} aria-label="Tutup"><X size={20}/></button><div className="modal-mark"><BookOpen size={27}/></div><p className="eyebrow">RUANG BELAJAR KAMU</p><h2 id="auth-title">{mode==='login'?'Senang kamu kembali.':'Mulai kebiasaan baru.'}</h2><p className="muted">Simpan kartu dan progres, lalu lanjutkan belajar dari perangkat mana pun.</p><form onSubmit={submit}><label>Email<input autoComplete="email" type="email" value={email} onChange={e=>setEmail(e.target.value)} required placeholder="kamu@email.com" maxLength={254}/></label><label>Kata sandi<input type="password" autoComplete={mode==='login'?'current-password':'new-password'} minLength={mode==='signup'?8:1} value={password} onChange={e=>setPassword(e.target.value)} required placeholder={mode==='signup'?'Minimal 8 karakter':'Kata sandi kamu'}/></label>{open&&siteKey?<BotVerification key={`${mode}-${captchaAttempt}`} siteKey={siteKey} onToken={setCaptchaToken}/>:null}{error?<p className="notice error" role="alert">{error}</p>:null}{message?<p className="notice success" role="status"><Mail size={18}/>{message}</p>:null}<button disabled={busy||(mode==='signup'&&signupWait>0)||Boolean(siteKey&&!captchaToken)} className="button full">{busy?<LoaderCircle className="spin" size={18}/>:null}{mode==='login'?'Masuk':signupWait>0?`Coba lagi dalam ${signupWait} detik`:'Buat akun'}</button></form><p className="auth-switch">{mode==='login'?'Belum punya akun?':'Sudah punya akun?'} <button disabled={busy} onClick={()=>{setCaptchaToken('');setMode(mode==='login'?'signup':'login');setError('');setMessage('');}}>{mode==='login'?'Daftar gratis':'Masuk'}</button></p></div></dialog>;
+  return <dialog ref={dialog} className="auth-dialog" onCancel={onClose} onClick={e=>{if(e.target===dialog.current&&!busy)onClose();}} aria-labelledby="auth-title"><div className="auth-content"><button className="icon-button close-dialog" onClick={onClose} aria-label="Tutup"><X size={20}/></button><div className="modal-mark"><BookOpen size={27}/></div><p className="eyebrow">RUANG BELAJAR KAMU</p><h2 id="auth-title">Senang kamu kembali.</h2><p className="muted">Simpan kartu dan progres, lalu lanjutkan belajar dari perangkat mana pun.</p><form onSubmit={submit}><label>Email<input autoComplete="email" type="email" value={email} onChange={e=>setEmail(e.target.value)} required placeholder="kamu@email.com" maxLength={254}/></label><label>Kata sandi<input type="password" autoComplete="current-password" minLength={1} value={password} onChange={e=>setPassword(e.target.value)} required placeholder="Kata sandi kamu"/></label>{open&&siteKey?<BotVerification key={captchaAttempt} siteKey={siteKey} onToken={setCaptchaToken}/>:null}{error?<p className="notice error" role="alert">{error}</p>:null}<button disabled={busy||Boolean(siteKey&&!captchaToken)} className="button full">{busy?<LoaderCircle className="spin" size={18}/>:null}Masuk</button></form></div></dialog>;
 }
 export function LoginGate({children}) {
   const {user,loading,openAuth,configured}=useAuth();
   if(loading)return <div className="empty-state"><LoaderCircle className="spin"/><p>Membuka ruang belajar…</p></div>;
-  if(!user)return <div className="empty-state"><div className="empty-icon"><Layers size={30}/></div><h2>{configured?'Ruang belajar milikmu.':'Sebentar, kami sedang bersiap.'}</h2><p>{configured?'Masuk untuk membuat flashcard dan menyimpan progres belajarmu.':'Kamu tetap bisa menjelajahi beranda dan mencoba contoh flashcard.'}</p><button className="button" onClick={openAuth}>Masuk atau daftar <ArrowUpRight size={17}/></button><Link className="text-link" href="/belajar/demo">Coba kartu contoh</Link></div>;
+  if(!user)return <div className="empty-state"><div className="empty-icon"><Layers size={30}/></div><h2>{configured?'Ruang belajar milikmu.':'Sebentar, kami sedang bersiap.'}</h2><p>{configured?'Masuk untuk membuat flashcard dan menyimpan progres belajarmu.':'Kamu tetap bisa menjelajahi beranda dan mencoba contoh flashcard.'}</p><button className="button" onClick={openAuth}>Masuk <ArrowUpRight size={17}/></button><Link className="text-link" href="/belajar/demo">Coba kartu contoh</Link></div>;
   return children;
 }

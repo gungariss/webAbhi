@@ -10,13 +10,11 @@ Website flashcard active recall dengan Next.js, Supabase dan Gemini API. Tiga la
 4. Di **Authentication → URL Configuration**, isi **Site URL** dengan `https://webabhi.vercel.app`. Tambahkan URL tersebut ke daftar Redirect URLs. Untuk lokal, tambahkan `http://localhost:3000`. Tambahkan alamat Preview tertentu hanya jika kamu menggunakannya.
 5. Salin Project URL dan Publishable Key dari dialog **Connect** / **Settings → API Keys**. Key `anon` versi lama juga didukung.
 
-### Register gagal karena batas email
+### Akses akun
 
-Error Auth `over_email_send_rate_limit` / `Email rate limit exceeded` berasal dari pengiriman email konfirmasi Supabase, bukan limit generate flashcard. Untuk pemakaian publik, aktifkan **Authentication → Email → SMTP Settings** dengan SMTP provider, alamat pengirim, dan domain terverifikasi. Layanan email bawaan Supabase memiliki kuota rendah dan membatasi penerima; layanan tersebut ditujukan untuk pengujian. Setelah custom SMTP aktif, periksa **Authentication → Rate Limits** dan sesuaikan batas pengiriman email dengan kuota provider. Jangan menonaktifkan konfirmasi email sebagai jalan pintas.
+Website hanya menyediakan login email dan password untuk akun yang sudah ada. Pendaftaran, pengiriman email konfirmasi baru, dan tombol Daftar tidak tersedia di website. Untuk menambahkan akun, pengelola dapat menggunakan **Authentication → Users → Add user → Create new user** di dashboard Supabase; konfirmasi akun sesuai kebijakan proyek sebelum pengguna masuk.
 
-Cek **Authentication → Logs** untuk membedakan `over_email_send_rate_limit` (email) dari `over_request_rate_limit` (percobaan Auth). Push atau redeploy tidak mereset kuota Supabase. Form mencegah submit ganda dan memberi jeda 60 detik setelah permintaan konfirmasi diterima; jeda ini tidak menjamin kuota email proyek sudah pulih. Verifikasi setelah pengaturan SMTP diperbaiki: daftar memakai alamat email yang kamu kendalikan, buka tautan konfirmasi, lalu masuk dan pastikan Kartu Saya terbuka.
-
-Referensi: [Supabase Auth rate limits](https://supabase.com/docs/guides/auth/rate-limits) dan [custom SMTP](https://supabase.com/docs/guides/auth/auth-smtp).
+Menghapus form daftar tidak menonaktifkan endpoint signup Supabase. Untuk menutup pendaftaran pada seluruh proyek, nonaktifkan **Allow new users to sign up** di pengaturan Supabase Auth. Perubahan dashboard ini terpisah dari push kode.
 
 Untuk instalasi yang sudah aktif, jalankan [`supabase/migrations/20261010_generation_limit.sql`](supabase/migrations/20261010_generation_limit.sql) di SQL Editor untuk menerapkan batas 10 permintaan per 6 jam. Push kode saja tidak memperbarui fungsi database. Riwayat permintaan sebelumnya tetap dihitung.
 
@@ -59,7 +57,7 @@ npm start
 
 ## Fitur
 
-- Login/daftar email dan password, konfirmasi email sesuai pengaturan Supabase.
+- Login email dan password untuk akun yang sudah ada, dengan verifikasi Turnstile bila dikonfigurasi.
 - PDF: satu file maksimal 10 MB; dibaca secara multimodal, termasuk PDF hasil scan yang jelas.
 - YouTube: satu URL video publik. Tidak mendukung video private/unlisted; gunakan video singkat untuk mengurangi waktu dan kuota.
 - Gambar: JPG/PNG/WebP, maksimal 10 file, maksimal 10 MB per file sebelum kompresi; total maksimal 10 MB sesudah kompresi. Pratinjau, hapus dan urutkan gambar tersedia.

@@ -7,7 +7,7 @@ test('email delivery quota is distinguished from auth request throttling', () =>
   assert.match(emailQuota,/email konfirmasi/);
   assert.match(emailQuota,/pengelola/);
   const requestLimit = friendlyError({code:'over_request_rate_limit',status:429,message:'Request rate limit reached'});
-  assert.match(requestLimit,/percobaan masuk atau daftar/);
+  assert.match(requestLimit,/percobaan masuk/);
   assert.doesNotMatch(requestLimit,/pengelola/);
 });
 

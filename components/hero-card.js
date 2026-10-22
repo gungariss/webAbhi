@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, Check } from 'lucide-react';
+import { ArrowUpRight, Check, Repeat2 } from 'lucide-react';
 
 export function HeroCard() {
   const [flipped, setFlipped] = useState(false);
@@ -10,14 +10,14 @@ export function HeroCard() {
     <div className={`preview-scene ${flipped ? 'is-flipped' : ''}`}>
       <div className="preview-paper">
         <div className="preview-face preview-front" aria-hidden={flipped}>
-          <div className="preview-card-top"><span>BIOLOGI / STRUKTUR SEL</span><span>01</span></div>
-          <svg className="cell-sketch" viewBox="0 0 150 84" fill="none" aria-hidden="true"><path d="M15 48C9 22 39 10 74 10s61 12 62 33-28 33-65 31S22 69 15 48Z" stroke="currentColor" strokeWidth="2" /><path d="M27 45C23 28 46 20 73 20s48 7 49 22-23 24-50 22-41-4-45-19Z" stroke="currentColor" strokeWidth="1.4" /><path d="m43 26 9 12-11 12 11 11m17-40 10 16-10 12 7 15m21-38 9 11-12 12 7 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-          <span className="preview-label">PERTANYAAN</span><h2>Apa fungsi utama<br />mitokondria?</h2><p>Coba ingat dulu.</p>
+          <div className="preview-card-top"><span>INFORMATIKA / PERULANGAN</span><span>01</span></div>
+          <Repeat2 className="cell-sketch" width={150} height={84} strokeWidth={1.5} aria-hidden="true" />
+          <span className="preview-label">PERTANYAAN</span><h2>Apa itu algoritma<br />perulangan?</h2><p>Coba ingat dulu.</p>
         </div>
         <div className="preview-face preview-back" aria-hidden={!flipped}>
-          <div className="preview-card-top"><span>BIOLOGI / STRUKTUR SEL</span><span>01</span></div>
+          <div className="preview-card-top"><span>INFORMATIKA / PERULANGAN</span><span>01</span></div>
           <span className="preview-answer-mark"><Check size={28} strokeWidth={1.5} /></span>
-          <span className="preview-label">JAWABAN</span><h2>Pembangkit energi<br />di dalam sel.</h2><p>Mitokondria menghasilkan ATP melalui respirasi seluler.</p>
+          <span className="preview-label">JAWABAN</span><h2>Mengulang instruksi<br />sesuai aturan.</h2><p>Instruksi diulang sesuai jumlah atau kondisi tertentu.</p>
         </div>
       </div>
       <button type="button" className="card-hit-area" onClick={() => setFlipped(value => !value)} aria-pressed={flipped} aria-label={flipped ? 'Kembali ke pertanyaan contoh' : 'Balik kartu contoh untuk melihat jawaban'} />
